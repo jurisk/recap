@@ -1,11 +1,10 @@
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
-use proc_macro2::Span;
 use quote::quote;
 use regex::Regex;
 use syn::{
-    parse_macro_input, Data::Struct, DataStruct, DeriveInput, Fields, Ident, Lit, Meta, NestedMeta,
+    parse_macro_input, Data::Struct, DataStruct, DeriveInput, Fields, Lit, Meta, NestedMeta,
 };
 
 #[proc_macro_derive(Recap, attributes(recap))]
@@ -75,13 +74,8 @@ pub fn derive_recap(item: TokenStream) -> TokenStream {
         }
     };
 
-    let injector = Ident::new(
-        &format!("RECAP_IMPL_FOR_{}", item.ident.to_string()),
-        Span::call_site(),
-    );
-
     let out = quote! {
-        const #injector: () = {
+        const _: () = {
             extern crate recap;
             #impl_inner
             #impl_matcher
